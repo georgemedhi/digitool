@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Compressor | DigitalHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #8A2BE2;
+            --secondary: #4B0082;
+            --accent: #FF69B4;
+            --dark: #1A1A1A;
+            --text: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark) 70%, var(--secondary) 100%);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .upload-section {
+            border: 2px dashed var(--primary);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .upload-section:hover {
+            background: rgba(138, 43, 226, 0.1);
+        }
+
+        .file-list {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .preview-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        video {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .upload-section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="upload-section" id="dropZone">
+            <input type="file" id="fileInput" accept="video/*" hidden>
+            <label for="fileInput" style="cursor: pointer;">
+                <i class="fas fa-file-video fa-3x"></i>
+                <h2>Drag & Drop or Click to Upload</h2>
+                <p>Supported formats: MP4, MOV, AVI (Max 100MB)</p>
+            </label>
+        </div>
+
+        <div class="file-list" id="fileList"></div>
+
+        <div class="controls">
+            <div class="preview-card">
+                <h3><i class="fas fa-compress"></i> Compression</h3>
+                <label>Quality Level: <span id="qualityValue">Medium</span></label>
+                <input type="range" id="quality" min="1" max="3" value="2">
+            </div>
+
+            <div class="preview-card">
+                <h3><i class="fas fa-cog"></i> Settings</h3>
+                <select id="resolution" style="width: 100%; padding: 0.5rem; margin-top: 1rem;">
+                    <option value="original">Original Resolution</option>
+                    <option value="720">720p</option>
+                    <option value="480">480p</option>
+                </select>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 2rem 0;">
+            <button id="processBtn"><i class="fas fa-magic"></i> Compress Video</button>
+        </div>
+
+        <div class="preview-grid" id="output"></div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const processBtn = document.getElementById('processBtn');
+        const output = document.getElementById('output');
+
+        fileInput.addEventListener('change', handleVideoUpload);
+
+        function handleVideoUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const url = URL.createObjectURL(file);
+            output.innerHTML = `
+                <div class="preview-card">
+                    <h3>Original Video Preview</h3>
+                    <video controls>
+                        <source src="${url}" type="${file.type}">
+                    </video>
+                    <p>Size: ${(file.size/1024/1024).toFixed(2)}MB</p>
+                </div>
+            `;
+        }
+
+        processBtn.addEventListener('click', () => {
+            alert('Video compression processing... (Simulated)');
+        });
+    </script>
+</body>
+</html>
